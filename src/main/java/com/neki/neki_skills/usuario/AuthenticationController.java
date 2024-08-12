@@ -18,8 +18,11 @@ import com.neki.neki_skills.config.security.ErrorRes;
 import com.neki.neki_skills.config.security.LoginReq;
 import com.neki.neki_skills.config.security.LoginRes;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/rest/auth/")
+@Slf4j
 public class AuthenticationController {
 
 	@Autowired
@@ -31,7 +34,8 @@ public class AuthenticationController {
     @ResponseBody
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginReq loginReq)  {
-
+    	
+    	log.info("Inicio do login");
         try {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getNome(), loginReq.getSenha()));
@@ -43,6 +47,7 @@ public class AuthenticationController {
             return ResponseEntity.ok(loginRes);
 
         }catch (BadCredentialsException e){
+        	log.error("Deu ruim");
             ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST,"Invalid usuarioname or password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }catch (Exception e){

@@ -43,9 +43,14 @@ public class SecurityConfig {
 				.authorizeHttpRequests(req -> {
 					req.requestMatchers(HttpMethod.POST,"/rest/auth/login").permitAll();
 					req.requestMatchers("/swagger-ui/**").permitAll();
+					req.requestMatchers("/swagger-ui.html").permitAll();
 					req.requestMatchers("/v3/api-docs/**").permitAll();
-					//req.requestMatchers(HttpMethod.GET,"/api/usuario_skill/listarSkillUsuario/{id}").permitAll();
-					//req.requestMatchers(HttpMethod.POST,"/api/usuario/salvar").permitAll();
+					req.requestMatchers(HttpMethod.GET,"/api/usuario_skill/listarSkillUsuario/{id}").permitAll();
+					req.requestMatchers(HttpMethod.POST,"/api/usuario/salvar").permitAll();
+					//req.requestMatchers(HttpMethod.POST,"/api/skill/salvar").permitAll();
+					req.requestMatchers(HttpMethod.POST,"/api/usuario_skill/salvar").permitAll();
+					req.requestMatchers(HttpMethod.PUT,"/api/usuario_skill/atualizar").permitAll();
+					req.requestMatchers(HttpMethod.DELETE,"/api/usuario_skill/{id}").permitAll();
 					req.anyRequest().authenticated();
 				}).addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
